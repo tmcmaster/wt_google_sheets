@@ -18,7 +18,6 @@ class GoogleSheet {
     final worksheet = (await _spreadSheet).worksheetByTitle(sheet);
     if (worksheet != null) {
       final jsonMapList = await worksheet.values.map.allRows(fromRow: 1) ?? [];
-      print(jsonMapList);
       return convert.from.jsonMapList.to.modelList(jsonMapList);
     }
     throw Exception('There was no worksheet called: $sheet');

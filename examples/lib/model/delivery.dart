@@ -88,7 +88,7 @@ class Delivery extends BaseModel<Delivery> with _$Delivery {
 
   static String? _toJson(DateTime? date) {
     if (date == null) return null;
-    final DateFormat formatter = DateFormat('yyyy/MM/dd');
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
     return formatter.format(date);
   }
 }

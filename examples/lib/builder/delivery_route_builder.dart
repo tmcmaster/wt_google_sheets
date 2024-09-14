@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:wt_google_sheets/wt_google_sheets.dart';
 import 'package:wt_google_sheets_examples/model/delivery.dart';
 import 'package:wt_google_sheets_examples/model/driver.dart';
@@ -8,8 +7,7 @@ import 'package:wt_google_sheets_examples/model/route.dart';
 import 'package:wt_google_sheets_examples/model/suburb.dart';
 
 class DeliveryRouteBuilder {
-  static const dataDir =
-      '/Users/timmcmaster/Workspace/scm/flutter/libraries/wt_google_sheets/examples/data';
+  static const dataDir = './data';
   static const ordersSheetName = 'Orders';
   static const suburbsSheetName = 'Suburbs';
   static const postcodesSheetName = 'Postcodes';
@@ -76,10 +74,11 @@ class DeliveryRouteBuilder {
     final suburbRouteMap = await getSuburbRouteMap();
     final orders = Delivery.convert.to.modelList.from.jsonMapListFile(ordersFile);
     final deliveries = orders
-        .mapIndexed((index, order) => order.copyWith(
-            route: suburbRouteMap[order.suburb.toLowerCase().trim()] ?? '',
-            customerId: (30000 + index + 1).toString()))
+        .map((order) => order.copyWith(
+              route: suburbRouteMap[order.suburb.toLowerCase().trim()] ?? '',
+            ))
         .toList();
     setDeliveries(deliveries, sheetName: '2024-09-16');
+    // setDeliveries(deliveries);
   }
 }

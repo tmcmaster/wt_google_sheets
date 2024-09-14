@@ -1,6 +1,7 @@
 name: wt_google_sheets
 description: "Dart library that reads and writes data to Google Sheets."
-version: 0.0.1
+version: 0.0.1+1
+publish_to: none
 homepage: https://github.com/tmcmaster/wt_google_sheet
 
 environment:
@@ -10,6 +11,13 @@ dependencies:
   flutter:
     sdk: flutter
   gsheets:
+  intl:
+  wt_logging:
+    git:
+      url: https://github.com/tmcmaster/wt_logging.git
+  wt_models:
+    git:
+      url: https://github.com/tmcmaster/wt_models.git
 
 dev_dependencies:
   flutter_test:

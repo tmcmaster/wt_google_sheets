@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:wt_google_sheets/wt_google_sheets.dart';
+import 'package:flutter/material.dart' hide Route;
+import 'package:wt_google_sheets_examples/builder/delivery_route_builder.dart';
 import 'package:wt_google_sheets_examples/secrets/flutter-sheets-secrets.dart';
+import 'package:wt_logging/wt_logging.dart';
 
 void main() {
   runApp(
@@ -10,35 +11,20 @@ void main() {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const TestGoogleSheets(),
+      home: TestGoogleSheets(),
     ),
   );
 }
 
-class TestGoogleSheets extends StatefulWidget {
-  const TestGoogleSheets({super.key});
+class TestGoogleSheets extends StatelessWidget {
+  static final log = logger(TestGoogleSheets, level: Level.debug);
 
-  @override
-  State<TestGoogleSheets> createState() => _TestGoogleSheetsState();
-}
+  TestGoogleSheets({super.key});
 
-class _TestGoogleSheetsState extends State<TestGoogleSheets> {
-  GoogleSheet? googleSheet;
-
-  @override
-  void initState() {
-    super.initState();
-    GoogleSheet.load(
-      GoogleSheetsSecrets.spreadsheetId,
-      GoogleSheetsSecrets.serviceKey,
-    ).then((googleSheet) {
-      setState(() {
-        this.googleSheet = googleSheet;
-      });
-    });
-  }
-
-  String value = '';
+  final deliveryRouteBuilder = DeliveryRouteBuilder(
+    GoogleSheetsSecrets.spreadsheetId,
+    GoogleSheetsSecrets.serviceKey,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -50,24 +36,55 @@ class _TestGoogleSheetsState extends State<TestGoogleSheets> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Value: $value',
+          children: [
+            OutlinedButton(
+              onPressed: _readSuburbs,
+              child: const Text('Read Suburbs'),
             ),
-            if (googleSheet != null)
-              OutlinedButton(
-                onPressed: () async {
-                  await googleSheet!.selectSheet('New Sheet');
-                  await googleSheet!.replaceSheet([
-                    ['AAA', 'bbb', '111'],
-                    ['BBB', 'aaa', '222'],
-                  ]);
-                },
-                child: const Text('Get Value'),
-              ),
-          ],
+            OutlinedButton(
+              onPressed: _readDrivers,
+              child: const Text('Read Drivers'),
+            ),
+            OutlinedButton(
+              onPressed: _readRoutes,
+              child: const Text('Read Routes'),
+            ),
+            OutlinedButton(
+              onPressed: _readDeliveries,
+              child: const Text('Read Deliveries'),
+            ),
+            OutlinedButton(
+              onPressed: _updateDeliveryRoutes,
+              child: const Text('Update Routes'),
+            ),
+          ]
+              .map((c) => Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: c,
+                  ))
+              .toList(),
         ),
       ),
     );
+  }
+
+  void _readSuburbs() async {
+    log.d('Suburbs: ${deliveryRouteBuilder.getSuburbs()}');
+  }
+
+  void _readDrivers() async {
+    log.d('Drivers: ${deliveryRouteBuilder.getDrivers()}');
+  }
+
+  void _readRoutes() async {
+    log.d('Routes: ${deliveryRouteBuilder.getRoutes()}');
+  }
+
+  void _readDeliveries() async {
+    log.d('Deliveries: ${deliveryRouteBuilder.getDeliveries()}');
+  }
+
+  void _updateDeliveryRoutes() async {
+    deliveryRouteBuilder.updateDeliveryRoutes();
   }
 }

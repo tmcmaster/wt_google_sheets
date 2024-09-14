@@ -1,32 +1,42 @@
+import 'package:collection/collection.dart';
 import 'package:gsheets/gsheets.dart';
+import 'package:wt_models/wt_models.dart';
 
-class GoogleSheet<T> {
-  static const defaultWorksheetName = 'Sheet';
-  final Spreadsheet spreadSheet;
-  Worksheet worksheet;
+class GoogleSheet {
+  static const listQuality = ListEquality();
+  final Future<Spreadsheet> _spreadSheet;
 
-  GoogleSheet._(this.spreadSheet, this.worksheet);
+  GoogleSheet({
+    required String spreadsheetId,
+    required Map<String, String> serviceKey,
+  }) : _spreadSheet = GSheets(serviceKey).spreadsheet(spreadsheetId);
 
-  static Future<GoogleSheet<T>> load<T>(
-    String spreadsheetId,
-    Map<String, String> serviceKey,
-  ) async {
-    final gsheets = GSheets(serviceKey);
-    final spreadSheet = await gsheets.spreadsheet(spreadsheetId);
-    final worksheet = spreadSheet.worksheetByIndex(0) ??
-        spreadSheet.worksheetByTitle(defaultWorksheetName) ??
-        await spreadSheet.addWorksheet(defaultWorksheetName);
-    return GoogleSheet._(spreadSheet, worksheet);
+  Future<List<T>> loadData<T extends BaseModel<T>>({
+    required DslConvert<T> convert,
+    required String sheet,
+  }) async {
+    final worksheet = (await _spreadSheet).worksheetByTitle(sheet);
+    if (worksheet != null) {
+      final jsonMapList = await worksheet.values.map.allRows(fromRow: 1) ?? [];
+      print(jsonMapList);
+      return convert.from.jsonMapList.to.modelList(jsonMapList);
+    }
+    throw Exception('There was no worksheet called: $sheet');
   }
 
-  Future<void> selectSheet(String sheetName) async {
-    final worksheet =
-        spreadSheet.worksheetByTitle(sheetName) ?? await spreadSheet.addWorksheet(sheetName);
-    this.worksheet = worksheet;
-  }
-
-  Future<void> replaceSheet(List<List<dynamic>> rows) async {
-    await this.worksheet.clear();
-    await this.worksheet.values.appendRows(rows);
+  Future<void> saveData<T extends BaseModel<T>>({
+    required DslConvert<T> convert,
+    required String sheet,
+    required List<T> rows,
+  }) async {
+    Worksheet? worksheet = (await _spreadSheet).worksheetByTitle(sheet);
+    worksheet ??= await (await _spreadSheet).addWorksheet(sheet);
+    final headers = await worksheet.values.row(1);
+    final titles = convert.titles();
+    if (!listQuality.equals(titles, headers)) {
+      await worksheet.values.insertRows(1, [convert.titles()]);
+    }
+    final data = convert.from.modelList.to.jsonMapList(rows);
+    await worksheet.values.map.insertRows(2, data, mapTo: 1);
   }
 }

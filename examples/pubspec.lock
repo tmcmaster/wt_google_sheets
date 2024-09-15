@@ -186,10 +186,10 @@ packages:
     dependency: transitive
     description:
       name: csv
-      sha256: "63ed2871dd6471193dffc52c0e6c76fb86269c00244d244297abbb355c84a86e"
+      sha256: c6aa2679b2a18cb57652920f674488d89712efaf4d3fdf2e537215b35fc19d6c
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.1"
+    version: "6.0.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -713,8 +713,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8132ba2cd159a86b1d6e157d1da7a5c480b9b9dc"
-      url: "https://github.com/tmcmaster/wt_logging.git"
+      resolved-ref: "899360e2254f0e4205ec04738e5518a7d34bebee"
+      url: "git@github.com:tmcmaster/wt_logging.git"
     source: git
     version: "1.0.3+3"
   wt_models:
@@ -722,8 +722,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "3d5c4c27ad0e1f4ae200f3330de86fbd51bdc45f"
-      url: "https://github.com/tmcmaster/wt_models.git"
+      resolved-ref: c0fb0c55bbd5364333be1027d2f002227933def6
+      url: "git@github.com:tmcmaster/wt_models.git"
     source: git
     version: "1.0.0+1"
   yaml:

@@ -15,12 +15,9 @@ class GoogleSheet {
     required DslConvert<T> convert,
     required String sheet,
   }) async {
-    final worksheet = (await _spreadSheet).worksheetByTitle(sheet);
-    if (worksheet != null) {
-      final jsonMapList = await worksheet.values.map.allRows(fromRow: 1) ?? [];
-      return convert.from.jsonMapList.to.modelList(jsonMapList);
-    }
-    throw Exception('There was no worksheet called: $sheet');
+    final worksheet = await _selectWorksheet(sheet);
+    final jsonMapList = await worksheet.values.map.allRows(fromRow: 1) ?? [];
+    return convert.from.jsonMapList.to.modelList(jsonMapList);
   }
 
   Future<void> saveData<T extends BaseModel<T>>({
@@ -28,14 +25,17 @@ class GoogleSheet {
     required String sheet,
     required List<T> rows,
   }) async {
-    Worksheet? worksheet = (await _spreadSheet).worksheetByTitle(sheet);
-    worksheet ??= await (await _spreadSheet).addWorksheet(sheet);
-    final headers = await worksheet.values.row(1);
-    final titles = convert.titles();
-    if (!listQuality.equals(titles, headers)) {
-      await worksheet.values.insertRows(1, [convert.titles()]);
+    final worksheet = await _selectWorksheet(sheet);
+    await worksheet.clear();
+    await worksheet.values.insertRows(1, [convert.titles()]);
+    if (rows.isNotEmpty) {
+      final data = convert.from.modelList.to.jsonMapList(rows);
+      await worksheet.values.map.insertRows(2, data, mapTo: 1);
     }
-    final data = convert.from.modelList.to.jsonMapList(rows);
-    await worksheet.values.map.insertRows(2, data, mapTo: 1);
+  }
+
+  Future<Worksheet> _selectWorksheet(String sheet) async {
+    return (await _spreadSheet).worksheetByTitle(sheet) ??
+        await (await _spreadSheet).addWorksheet(sheet);
   }
 }

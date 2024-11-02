@@ -22,7 +22,7 @@ class DeliveryRouteBuilder {
     String spreadsheetId,
     Map<String, String> serviceKey,
   ) : _googleSheet = GoogleSheet(
-          spreadsheetId: spreadsheetId,
+          sheetId: spreadsheetId,
           serviceKey: serviceKey,
         );
 

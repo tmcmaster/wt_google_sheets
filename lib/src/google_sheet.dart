@@ -1,15 +1,23 @@
 import 'package:collection/collection.dart';
 import 'package:gsheets/gsheets.dart';
+import 'package:wt_logging/wt_logging.dart';
 import 'package:wt_models/wt_models.dart';
 
 class GoogleSheet {
+  static final log = logger(GoogleSheet, level: Level.debug);
+
   static const listQuality = ListEquality();
-  final Future<Spreadsheet> _spreadSheet;
+  final String sheetId;
+  late final Future<Spreadsheet> _spreadSheet;
 
   GoogleSheet({
-    required String spreadsheetId,
+    required this.sheetId,
     required Map<String, String> serviceKey,
-  }) : _spreadSheet = GSheets(serviceKey).spreadsheet(spreadsheetId);
+  }) {
+    log.d('Creating: $sheetId');
+
+    _spreadSheet = GSheets(serviceKey).spreadsheet(sheetId);
+  }
 
   Future<List<T>> loadData<T extends BaseModel<T>>({
     required DslConvert<T> convert,
@@ -38,4 +46,7 @@ class GoogleSheet {
     return (await _spreadSheet).worksheetByTitle(sheet) ??
         await (await _spreadSheet).addWorksheet(sheet);
   }
+
+  @override
+  String toString() => 'GoogleSheet($sheetId)';
 }

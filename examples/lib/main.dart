@@ -69,19 +69,19 @@ class TestGoogleSheets extends StatelessWidget {
   }
 
   void _readSuburbs() async {
-    log.d('Suburbs: ${deliveryRouteBuilder.getSuburbs()}');
+    log.d('Suburbs: ${await deliveryRouteBuilder.getSuburbs()}');
   }
 
   void _readDrivers() async {
-    log.d('Drivers: ${deliveryRouteBuilder.getDrivers()}');
+    log.d('Drivers: ${await deliveryRouteBuilder.getDrivers()}');
   }
 
   void _readRoutes() async {
-    log.d('Routes: ${deliveryRouteBuilder.getRoutes()}');
+    log.d('Routes: ${await deliveryRouteBuilder.getRoutes()}');
   }
 
   void _readDeliveries() async {
-    log.d('Deliveries: ${deliveryRouteBuilder.getDeliveries()}');
+    log.d('Deliveries: ${await deliveryRouteBuilder.getDeliveries()}');
   }
 
   void _updateDeliveryRoutes() async {

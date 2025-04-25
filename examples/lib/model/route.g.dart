@@ -7,14 +7,18 @@ part of 'route.dart';
 // **************************************************************************
 
 _$RouteImpl _$$RouteImplFromJson(Map<String, dynamic> json) => _$RouteImpl(
-      driver: json['driver'] as String,
-      day: json['day'] as String,
-      route: json['route'] as String,
+      route: json['Route'] as String? ?? '',
+      deliveryDay: json['Delivery Day'] as String? ?? '',
+      driver: json['Driver'] as String? ?? '',
+      vehicle: json['Vehicle'] as String? ?? '',
+      packingDay: json['Packing Day'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$RouteImplToJson(_$RouteImpl instance) =>
     <String, dynamic>{
-      'driver': instance.driver,
-      'day': instance.day,
-      'route': instance.route,
+      'Route': instance.route,
+      'Delivery Day': instance.deliveryDay,
+      'Driver': instance.driver,
+      'Vehicle': instance.vehicle,
+      'Packing Day': instance.packingDay,
     };

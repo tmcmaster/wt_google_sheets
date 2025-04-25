@@ -20,9 +20,16 @@ Route _$RouteFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Route {
-  String get driver => throw _privateConstructorUsedError;
-  String get day => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Route')
   String get route => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Delivery Day')
+  String get deliveryDay => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Driver')
+  String get driver => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Vehicle')
+  String get vehicle => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Packing Day')
+  String get packingDay => throw _privateConstructorUsedError;
 
   /// Serializes this Route to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +45,12 @@ abstract class $RouteCopyWith<$Res> {
   factory $RouteCopyWith(Route value, $Res Function(Route) then) =
       _$RouteCopyWithImpl<$Res, Route>;
   @useResult
-  $Res call({String driver, String day, String route});
+  $Res call(
+      {@JsonKey(name: 'Route') String route,
+      @JsonKey(name: 'Delivery Day') String deliveryDay,
+      @JsonKey(name: 'Driver') String driver,
+      @JsonKey(name: 'Vehicle') String vehicle,
+      @JsonKey(name: 'Packing Day') String packingDay});
 }
 
 /// @nodoc
@@ -56,22 +68,32 @@ class _$RouteCopyWithImpl<$Res, $Val extends Route>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? driver = null,
-    Object? day = null,
     Object? route = null,
+    Object? deliveryDay = null,
+    Object? driver = null,
+    Object? vehicle = null,
+    Object? packingDay = null,
   }) {
     return _then(_value.copyWith(
+      route: null == route
+          ? _value.route
+          : route // ignore: cast_nullable_to_non_nullable
+              as String,
+      deliveryDay: null == deliveryDay
+          ? _value.deliveryDay
+          : deliveryDay // ignore: cast_nullable_to_non_nullable
+              as String,
       driver: null == driver
           ? _value.driver
           : driver // ignore: cast_nullable_to_non_nullable
               as String,
-      day: null == day
-          ? _value.day
-          : day // ignore: cast_nullable_to_non_nullable
+      vehicle: null == vehicle
+          ? _value.vehicle
+          : vehicle // ignore: cast_nullable_to_non_nullable
               as String,
-      route: null == route
-          ? _value.route
-          : route // ignore: cast_nullable_to_non_nullable
+      packingDay: null == packingDay
+          ? _value.packingDay
+          : packingDay // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -84,7 +106,12 @@ abstract class _$$RouteImplCopyWith<$Res> implements $RouteCopyWith<$Res> {
       __$$RouteImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String driver, String day, String route});
+  $Res call(
+      {@JsonKey(name: 'Route') String route,
+      @JsonKey(name: 'Delivery Day') String deliveryDay,
+      @JsonKey(name: 'Driver') String driver,
+      @JsonKey(name: 'Vehicle') String vehicle,
+      @JsonKey(name: 'Packing Day') String packingDay});
 }
 
 /// @nodoc
@@ -100,22 +127,32 @@ class __$$RouteImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? driver = null,
-    Object? day = null,
     Object? route = null,
+    Object? deliveryDay = null,
+    Object? driver = null,
+    Object? vehicle = null,
+    Object? packingDay = null,
   }) {
     return _then(_$RouteImpl(
+      route: null == route
+          ? _value.route
+          : route // ignore: cast_nullable_to_non_nullable
+              as String,
+      deliveryDay: null == deliveryDay
+          ? _value.deliveryDay
+          : deliveryDay // ignore: cast_nullable_to_non_nullable
+              as String,
       driver: null == driver
           ? _value.driver
           : driver // ignore: cast_nullable_to_non_nullable
               as String,
-      day: null == day
-          ? _value.day
-          : day // ignore: cast_nullable_to_non_nullable
+      vehicle: null == vehicle
+          ? _value.vehicle
+          : vehicle // ignore: cast_nullable_to_non_nullable
               as String,
-      route: null == route
-          ? _value.route
-          : route // ignore: cast_nullable_to_non_nullable
+      packingDay: null == packingDay
+          ? _value.packingDay
+          : packingDay // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -125,22 +162,35 @@ class __$$RouteImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RouteImpl extends _Route {
   const _$RouteImpl(
-      {required this.driver, required this.day, required this.route})
+      {@JsonKey(name: 'Route') this.route = '',
+      @JsonKey(name: 'Delivery Day') this.deliveryDay = '',
+      @JsonKey(name: 'Driver') this.driver = '',
+      @JsonKey(name: 'Vehicle') this.vehicle = '',
+      @JsonKey(name: 'Packing Day') this.packingDay = ''})
       : super._();
 
   factory _$RouteImpl.fromJson(Map<String, dynamic> json) =>
       _$$RouteImplFromJson(json);
 
   @override
+  @JsonKey(name: 'Route')
+  final String route;
+  @override
+  @JsonKey(name: 'Delivery Day')
+  final String deliveryDay;
+  @override
+  @JsonKey(name: 'Driver')
   final String driver;
   @override
-  final String day;
+  @JsonKey(name: 'Vehicle')
+  final String vehicle;
   @override
-  final String route;
+  @JsonKey(name: 'Packing Day')
+  final String packingDay;
 
   @override
   String toString() {
-    return 'Route(driver: $driver, day: $day, route: $route)';
+    return 'Route(route: $route, deliveryDay: $deliveryDay, driver: $driver, vehicle: $vehicle, packingDay: $packingDay)';
   }
 
   /// Create a copy of Route
@@ -161,19 +211,30 @@ class _$RouteImpl extends _Route {
 
 abstract class _Route extends Route {
   const factory _Route(
-      {required final String driver,
-      required final String day,
-      required final String route}) = _$RouteImpl;
+      {@JsonKey(name: 'Route') final String route,
+      @JsonKey(name: 'Delivery Day') final String deliveryDay,
+      @JsonKey(name: 'Driver') final String driver,
+      @JsonKey(name: 'Vehicle') final String vehicle,
+      @JsonKey(name: 'Packing Day') final String packingDay}) = _$RouteImpl;
   const _Route._() : super._();
 
   factory _Route.fromJson(Map<String, dynamic> json) = _$RouteImpl.fromJson;
 
   @override
+  @JsonKey(name: 'Route')
+  String get route;
+  @override
+  @JsonKey(name: 'Delivery Day')
+  String get deliveryDay;
+  @override
+  @JsonKey(name: 'Driver')
   String get driver;
   @override
-  String get day;
+  @JsonKey(name: 'Vehicle')
+  String get vehicle;
   @override
-  String get route;
+  @JsonKey(name: 'Packing Day')
+  String get packingDay;
 
   /// Create a copy of Route
   /// with the given fields replaced by the non-null parameter values.

@@ -1,12 +1,8 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wt_google_sheets/wt_google_sheets.dart';
 import 'package:wt_google_sheets_examples/model/delivery.dart';
 import 'package:wt_google_sheets_examples/model/driver.dart';
 import 'package:wt_google_sheets_examples/model/route.dart';
 import 'package:wt_google_sheets_examples/model/suburb.dart';
-import 'package:wt_models/wt_models.dart';
-
-typedef SpreadSheetProvider<T extends BaseModel<T>> = StateNotifierProvider<GoogleSheetTabNotifier<T>, List<T>>;
 
 mixin SheetDataStore {
   static final suburb = GoogleSheetTabNotifier.create(

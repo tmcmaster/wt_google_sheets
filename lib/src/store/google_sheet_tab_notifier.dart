@@ -2,8 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wt_google_sheets/wt_google_sheets.dart';
 import 'package:wt_logging/wt_logging.dart';
 import 'package:wt_models/wt_models.dart';
+import 'package:wt_state/wt_state.dart';
 
-class GoogleSheetTabNotifier<T extends BaseModel<T>> extends StateNotifier<List<T>> {
+class GoogleSheetTabNotifier<T extends BaseModel<T>> extends ListStateNotifier<T> {
   static final log = logger(GoogleSheetTabNotifier, level: Level.debug);
 
   final GoogleSheet _googleSheet;
@@ -26,13 +27,13 @@ class GoogleSheetTabNotifier<T extends BaseModel<T>> extends StateNotifier<List<
     }
   }
 
-  static SpreadSheetProvider<T> create<T extends BaseModel<T>>({
+  static GoogleSheetProvider<T> create<T extends BaseModel<T>>({
     required String name,
     required String sheetName,
     required DslConvert<T> convert,
     bool initLoad = false,
   }) {
-    return SpreadSheetProvider<T>(
+    return GoogleSheetProvider<T>(
       name: name,
       (ref) {
         final googleSheet = ref.read(GoogleSheetsStore.sheet);

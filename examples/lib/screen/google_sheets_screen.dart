@@ -6,6 +6,8 @@ import 'package:wt_logging/wt_logging.dart';
 class GoogleSheetsScreen extends ConsumerWidget {
   static final log = logger(GoogleSheetsScreen, level: Level.debug);
 
+  const GoogleSheetsScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final suburbCount = ref.watch(SheetDataStore.suburb).length;

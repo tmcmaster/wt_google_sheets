@@ -814,6 +814,13 @@ packages:
       url: "git@github.com:tmcmaster/wt_models.git"
     source: git
     version: "1.0.0+1"
+  wt_state:
+    dependency: "direct main"
+    description:
+      path: "../../wt_state"
+      relative: true
+    source: path
+    version: "0.0.1"
   xdg_directories:
     dependency: transitive
     description:

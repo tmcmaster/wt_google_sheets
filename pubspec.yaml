@@ -14,6 +14,7 @@ dependencies:
   flutter_riverpod:
   freezed_annotation: ^2.4.4
   gsheets:
+  webview_flutter:
   intl:
   wt_logging:
     git:

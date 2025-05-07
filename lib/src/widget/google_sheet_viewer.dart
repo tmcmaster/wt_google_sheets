@@ -14,7 +14,7 @@ class GoogleSheetViewer extends StatefulWidget {
 }
 
 class _GoogleSheetViewerState extends State<GoogleSheetViewer> {
-  late final WebViewController _controller;
+  WebViewController? _controller;
 
   @override
   void initState() {
@@ -29,13 +29,22 @@ class _GoogleSheetViewerState extends State<GoogleSheetViewer> {
   }
 
   @override
+  void dispose() {
+    _controller = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: ValueKey('scaffold-${widget.sheetId}'),
-      body: WebViewWidget(
-        key: ValueKey('webview-${widget.sheetId}'),
-        controller: _controller,
-      ),
+      body: _controller == null
+          ? const Center(
+              child: Text('Loading Google Sheet'),
+            )
+          : WebViewWidget(
+              key: ValueKey('google-sheets-${widget.sheetId}'),
+              controller: _controller!,
+            ),
     );
   }
 }

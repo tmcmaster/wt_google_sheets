@@ -8,12 +8,7 @@ void main() {
   runApp(
     ProviderScope(
       overrides: [
-        GoogleSheetsStore.secrets.overrideWith(
-          (ref) => GoogleSheetSecrets(
-            sheetId: GoogleSheetsSecrets.spreadsheetId,
-            serviceKey: GoogleSheetsSecrets.serviceKey,
-          ),
-        )
+        GoogleSheetConfig.provider.overrideWith((ref) => GoogleSheetsSecrets.sheetConfig),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

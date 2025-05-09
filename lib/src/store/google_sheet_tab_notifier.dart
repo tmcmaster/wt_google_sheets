@@ -12,7 +12,7 @@ class GoogleSheetTabNotifier<T extends BaseModel<T>> extends ListStateNotifier<T
   final DslConvert<T> _convert;
   Ref ref;
 
-  GoogleSheetTabNotifier(
+  GoogleSheetTabNotifier._(
     this.ref, {
     required String sheetName,
     required DslConvert<T> convert,
@@ -31,13 +31,14 @@ class GoogleSheetTabNotifier<T extends BaseModel<T>> extends ListStateNotifier<T
     required String name,
     required String sheetName,
     required DslConvert<T> convert,
+    required ProviderBase<GoogleSheet> sheetProvider,
     bool initLoad = false,
   }) {
     return GoogleSheetProvider<T>(
       name: name,
       (ref) {
-        final googleSheet = ref.read(GoogleSheetsStore.sheet);
-        return GoogleSheetTabNotifier<T>(
+        final googleSheet = ref.read(sheetProvider);
+        return GoogleSheetTabNotifier<T>._(
           ref,
           sheetName: sheetName,
           convert: convert,

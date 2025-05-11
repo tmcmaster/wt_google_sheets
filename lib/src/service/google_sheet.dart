@@ -43,8 +43,7 @@ class GoogleSheet {
   }
 
   Future<Worksheet> _selectWorksheet(String sheet) async {
-    return (await _spreadSheet).worksheetByTitle(sheet) ??
-        await (await _spreadSheet).addWorksheet(sheet);
+    return (await _spreadSheet).worksheetByTitle(sheet) ?? await (await _spreadSheet).addWorksheet(sheet);
   }
 
   @override

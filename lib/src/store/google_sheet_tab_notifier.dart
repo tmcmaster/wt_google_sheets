@@ -43,7 +43,7 @@ class GoogleSheetTabNotifier<T extends BaseModel<T>> extends ListStateNotifier<T
           sheetName: sheetName,
           convert: convert,
           googleSheet: googleSheet,
-          initLoad: true,
+          initLoad: initLoad,
         );
       },
     );

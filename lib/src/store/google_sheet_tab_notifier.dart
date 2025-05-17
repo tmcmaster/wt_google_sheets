@@ -1,3 +1,4 @@
+import 'package:easy_debounce/easy_debounce.dart'; // <-- Add this import
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wt_google_sheets/wt_google_sheets.dart';
 import 'package:wt_logging/wt_logging.dart';
@@ -10,7 +11,9 @@ class GoogleSheetTabNotifier<T extends BaseModel<T>> extends ListStateNotifier<T
   final GoogleSheet _googleSheet;
   final String _sheetName;
   final DslConvert<T> _convert;
-  Ref ref;
+  final Duration _debounceTimeout;
+  final Ref ref;
+  final bool debounce;
 
   GoogleSheetTabNotifier._(
     this.ref, {
@@ -18,9 +21,12 @@ class GoogleSheetTabNotifier<T extends BaseModel<T>> extends ListStateNotifier<T
     required DslConvert<T> convert,
     required GoogleSheet googleSheet,
     bool initLoad = false,
+    this.debounce = true,
+    Duration debounceTimeout = const Duration(milliseconds: 2000),
   })  : _googleSheet = googleSheet,
         _sheetName = sheetName,
         _convert = convert,
+        _debounceTimeout = debounceTimeout,
         super([]) {
     if (initLoad) {
       Future.delayed(const Duration(milliseconds: 10), reload);
@@ -70,12 +76,27 @@ class GoogleSheetTabNotifier<T extends BaseModel<T>> extends ListStateNotifier<T
 
   Future<void> save(List<T> rows, {String? sheetName}) async {
     state = rows;
+
+    final debounceTag = 'google_sheet_save:${sheetName ?? _sheetName}';
+    if (debounce) {
+      EasyDebounce.debounce(
+        debounceTag,
+        _debounceTimeout,
+        () async => await _save(rows, sheetName: sheetName),
+      );
+    } else {
+      await _save(rows, sheetName: sheetName);
+    }
+  }
+
+  Future<void> _save(List<T> rows, {String? sheetName}) async {
     try {
       await _googleSheet.saveData(
         convert: _convert,
         sheet: sheetName ?? _sheetName,
         rows: state,
       );
+      log.d('Saved ${state.length} records to ${sheetName ?? _sheetName}.');
     } catch (error) {
       log.e('Could not save the ${sheetName ?? _sheetName} spreadsheet data: $error');
       rethrow;

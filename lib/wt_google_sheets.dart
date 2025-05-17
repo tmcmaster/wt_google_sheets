@@ -1,5 +1,3 @@
-library wt_google_sheets;
-
 export 'src/model/google_sheet_config.dart';
 export 'src/model/google_sheet_types.dart';
 export 'src/service/google_sheet.dart';

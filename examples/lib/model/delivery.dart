@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:wt_models/wt_models.dart';
@@ -32,8 +34,7 @@ class Delivery extends BaseModel<Delivery> with _$Delivery {
     @JsonKey(name: 'customer') required String customer,
     @JsonKey(name: 'route') required String route,
     @JsonKey(name: 'order_type') required String orderType,
-    @JsonKey(name: 'delivery_date', fromJson: Delivery._fromJson, toJson: Delivery._toJson)
-    DateTime? deliveryDate,
+    @JsonKey(name: 'delivery_date', fromJson: Delivery._fromJson, toJson: Delivery._toJson) DateTime? deliveryDate,
     @JsonKey(name: 'address') required String address,
     @JsonKey(name: 'suburb') required String suburb,
     @JsonKey(name: 'postcode') required String postcode,
@@ -78,7 +79,7 @@ class Delivery extends BaseModel<Delivery> with _$Delivery {
 
   static DateTime? _fromJson(String? date) {
     if (date == null || date.isEmpty) return null;
-    final days = int.tryParse(date ?? '');
+    final days = int.tryParse(date);
     if (days != null) {
       return DateTime(1900, 1, 1).add(Duration(days: days - 1));
     } else {

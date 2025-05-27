@@ -4,7 +4,7 @@ import 'package:wt_logging/wt_logging.dart';
 import 'package:wt_models/wt_models.dart';
 
 class GoogleSheet {
-  static final log = logger(GoogleSheet, level: Level.debug);
+  static final log = logger(GoogleSheet);
 
   static const listQuality = ListEquality();
   final String sheetId;

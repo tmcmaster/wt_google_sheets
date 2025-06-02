@@ -3,7 +3,7 @@ import 'package:wt_google_sheets/wt_google_sheets.dart';
 import 'package:wt_logging/wt_logging.dart';
 
 mixin GoogleSheetsStore {
-  static final log = logger(GoogleSheetsStore, level: Level.debug);
+  static final log = logger(GoogleSheetsStore);
 
   static final secrets = Provider<GoogleSheetSecrets>(
     name: 'Google Secrets',

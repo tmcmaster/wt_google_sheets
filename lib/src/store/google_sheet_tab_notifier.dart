@@ -5,7 +5,7 @@ import 'package:wt_models/wt_models.dart';
 import 'package:wt_state/wt_state.dart';
 
 class GoogleSheetTabNotifier<T extends BaseModel<T>> extends ListStateNotifier<T> {
-  static final log = logger(GoogleSheetTabNotifier, level: Level.debug);
+  static final log = logger(GoogleSheetTabNotifier);
 
   final GoogleSheet _googleSheet;
   final String _sheetName;
